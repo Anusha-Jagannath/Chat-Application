@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">चैट ऐप</string>
+    <string name="verify">सत्यापित करें</string>
+    <string name="enter_the_otp">ओटीपी दर्ज करें</string>
+    <string name="submit">प्रस्तुत करना</string>
+    <string name="Continue">जारी रखना</string>
+    <string name="welcome_to_chat_app">चैट ऐप में आपका स्वागत है</string>
+    <string name="please_enter_valid_phone_number_you_will_get_sms">कृपया एक वैध नंबर डालें। आपको एसएमएस मिलेगा</string>
+    <string name="profile">प्रोफ़ाइल</string>
+    <string name="enter_the_name">नाम दर्ज करें</string>
+    <string name="enter_the_status">स्थिति दर्ज करें</string>
+    <string name="save">सहेजें</string>
+
+</resources>

@@ -1,18 +1,16 @@
-package com.example.chatapp
+package com.example.chatapp.ui
 
-import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import com.example.chatapp.Constants
+import com.example.chatapp.R
 import com.example.chatapp.home.HomeActivity
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -22,8 +20,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.authentication_fragment.*
 import java.util.concurrent.TimeUnit
 
-class AuthenticationFragment : Fragment(R.layout.authentication_fragment) {
-
+class AuthenticationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private var storedVerificationId: String? = ""
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
@@ -32,25 +29,19 @@ class AuthenticationFragment : Fragment(R.layout.authentication_fragment) {
     private lateinit var phoneText: TextView
     private lateinit var otpText: EditText
     private lateinit var submit: Button
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.authentication_fragment, container, false)
-        phoneText = view.findViewById(R.id.textViewPhone)
-        otpText = view.findViewById(R.id.otp)
-        submit = view.findViewById(R.id.submitButton)
-        val args = this.arguments
-        val data = args?.get(Constants.PHONE_NUMBER)
-        phoneNo = data.toString()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_authentication)
+        phoneText = findViewById(R.id.textViewPhone)
+        otpText = findViewById(R.id.otp)
+        submit = findViewById(R.id.submitButton)
+        phoneNo = intent.getStringExtra(Constants.PHONE_NUMBER).toString()
+        val data = phoneNo
         Log.d("Phone", "$phoneNo")
         phoneText.setText("Verify ${data.toString()}")
-        Toast.makeText(requireContext(), "$data", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "$data", Toast.LENGTH_SHORT).show()
         init()
-        return view
     }
-
     private fun init() {
         submit.setOnClickListener {
             loading.visibility = View.VISIBLE
@@ -90,9 +81,9 @@ class AuthenticationFragment : Fragment(R.layout.authentication_fragment) {
                 Log.w("Failed", "onVerificationFailed", p0)
 
                 if (p0 is FirebaseAuthInvalidCredentialsException) {
-                    Toast.makeText(requireContext(), "Invalid phone no", Toast.LENGTH_SHORT).show()
+
                 } else if (p0 is FirebaseTooManyRequestsException) {
-                    Toast.makeText(requireContext(), "Invalid phone no", Toast.LENGTH_SHORT).show()
+
                 }
             }
         }
@@ -104,7 +95,7 @@ class AuthenticationFragment : Fragment(R.layout.authentication_fragment) {
         val options = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(phoneNumber)       // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS)
-            .setActivity(requireActivity())                 // Activity (for callback binding)
+            .setActivity(this)                 // Activity (for callback binding)
             .setCallbacks(callbacks)          // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
@@ -129,16 +120,11 @@ class AuthenticationFragment : Fragment(R.layout.authentication_fragment) {
     }
 
     private fun gotoHomeActivity() {
-        Log.d("Tag","I am here")
-        var intent = Intent(requireContext(), HomeActivity::class.java)
+        var intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
     }
-
     private fun gotoLoginActivity() {
-        requireActivity().supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragmentContainer, LoginFragment())
-            commit()
-        }
+        var intent = Intent(this,LoginActivity::class.java)
+       startActivity(intent)
     }
-
 }

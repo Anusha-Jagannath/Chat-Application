@@ -9,10 +9,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.hbb20.CountryCodePicker
 
 class LoginFragment : Fragment(R.layout.login_fragment){
     private lateinit var nextButton: Button
     private lateinit var phoneNoInput: EditText
+    private lateinit var phoneNo: String
+    private lateinit var code: String
+    private lateinit var countryCode: CountryCodePicker
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -21,12 +25,21 @@ class LoginFragment : Fragment(R.layout.login_fragment){
         val view = inflater.inflate(R.layout.login_fragment, container, false)
         nextButton = view.findViewById(R.id.nextButton)
         phoneNoInput = view.findViewById(R.id.phoneNumber)
+        countryCode = view.findViewById(R.id.countryCode)
+
         nextButton.setOnClickListener {
             Log.d("Next", "Button clicked")
+            code = countryCode.selectedCountryCodeWithPlus
+            phoneNo = code + phoneNoInput.text.toString()
             if (Validator.validatePhone(phoneNoInput)) {
+                val bundle = Bundle()
+                bundle.putString(Constants.PHONE_NUMBER,phoneNo)
+                val authFragment = AuthenticationFragment()
+                authFragment.arguments = bundle
                 requireActivity().supportFragmentManager.beginTransaction().apply {
-                    replace(R.id.fragmentContainer, AuthenticationFragment())
+                    replace(R.id.fragmentContainer, authFragment)
                     commit()
+
                 }
             }
         }
