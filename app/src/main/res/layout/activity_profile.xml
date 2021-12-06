@@ -9,13 +9,15 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile"
-        android:layout_width="133dp"
-        android:layout_height="121dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_marginTop="140dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/person" />
+        app:srcCompat="@drawable/person"
+        app:shapeAppearanceOverlay="@style/circular"
+        />
 
     <TextView
         android:id="@+id/textView"
@@ -73,11 +75,11 @@
 
     <Button
         android:id="@+id/save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="176dp"
+        android:layout_height="52dp"
         android:layout_marginTop="64dp"
-        android:text="@string/save"
         android:backgroundTint="@color/green"
+        android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.46"
         app:layout_constraintStart_toStartOf="parent"

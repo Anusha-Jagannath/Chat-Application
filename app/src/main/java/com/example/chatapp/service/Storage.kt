@@ -9,16 +9,13 @@ import com.google.firebase.storage.FirebaseStorage
 class Storage {
 
     fun uploadImage(uid: String,uri: Uri) {
-
         val reference = FirebaseStorage.getInstance().reference
         val fileReference = reference.child("user/"+uid+"jpg")
         fileReference.putFile(uri).addOnSuccessListener {
             Log.d("Storage","Image uploaded")
             Log.d("Image",it.task.result.toString())
             Log.d("Image",uri.toString())
-
         }
-
     }
 
 

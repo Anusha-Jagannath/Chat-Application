@@ -58,7 +58,7 @@ class HomeActivity : AppCompatActivity() {
         }
         if (item.itemId == R.id.logout) {
             Toast.makeText(this, "logout clicked", Toast.LENGTH_SHORT).show()
-            homeViewModel.logout()
+            AuthenticationService().logout()
             gotoLoginPage()
         }
         return super.onOptionsItemSelected(item)

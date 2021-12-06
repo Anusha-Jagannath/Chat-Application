@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
 import com.example.chatapp.adapters.UserAdaptor
 import com.example.chatapp.model.UserDetails
+import com.example.chatapp.service.AuthenticationService
 import com.google.firebase.firestore.*
 
 class ChatFragment : Fragment() {
@@ -46,7 +47,9 @@ class ChatFragment : Fragment() {
 
                 for( dc: DocumentChange in value?.documentChanges!!) {
                     if(dc.type == DocumentChange.Type.ADDED) {
-                        userArrayList.add(dc.document.toObject(UserDetails::class.java))
+                        val user = dc.document.toObject(UserDetails::class.java)
+                        if(AuthenticationService().getUid() != user.userId)
+                        userArrayList.add(user)
                         Log.d("USER",userArrayList.toString())
 
                     }

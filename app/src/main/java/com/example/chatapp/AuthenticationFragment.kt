@@ -96,7 +96,7 @@ class AuthenticationFragment : Fragment(R.layout.authentication_fragment) {
                 }
             }
         }
-        startPhoneNumberVerification("+918296846052")
+        startPhoneNumberVerification(phoneNo)
     }
 
     private fun startPhoneNumberVerification(phoneNumber: String) {

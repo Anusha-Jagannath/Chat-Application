@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.chatapp.R
 import com.example.chatapp.Validator
 import com.example.chatapp.model.UserDetails
@@ -72,8 +73,6 @@ class ProfileActivity : AppCompatActivity() {
         var fUid = AuthenticationService().getUid()
         var user = database.getUser(fUid)
         Log.d("profile",user.toString())
-        //Log.d("profile",user.userName)
-        //Log.d("profile",user.status)
         nameInput.setText(user.userName)
         statusInput.setText(user.status)
     }
@@ -82,7 +81,6 @@ class ProfileActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == RESULT_OK) {
             imageUri = data?.data!!
-            profileImage.setImageURI(imageUri)
             val storage = Storage()
             val uid = AuthenticationService().getUid()
             Log.d("UID", uid)
@@ -138,6 +136,7 @@ class ProfileActivity : AppCompatActivity() {
             if(task.isSuccessful) {
                 Log.d("Uploaded",task.result.toString())
                 downloadUrl = task.result.toString()
+                Glide.with(this).load(downloadUrl).into(profileImage)
             }
         }
     }

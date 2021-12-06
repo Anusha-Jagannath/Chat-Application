@@ -12,11 +12,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (AuthenticationService().getUid() != null) {
-            gotoHomeActivity()
-        } else {
-            replaceFragment(LoginFragment())
-        }
+//        if (AuthenticationService().getUid() != null) {
+//            gotoHomeActivity()
+//        } else {
+//            replaceFragment(LoginFragment())
+//        }
+        replaceFragment(LoginFragment())
     }
 
     private fun gotoHomeActivity() {

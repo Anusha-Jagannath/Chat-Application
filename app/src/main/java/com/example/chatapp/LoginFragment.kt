@@ -23,8 +23,8 @@ class LoginFragment : Fragment(R.layout.login_fragment){
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.login_fragment, container, false)
-        nextButton = view.findViewById(R.id.nextButton)
-        phoneNoInput = view.findViewById(R.id.phoneNumber)
+        nextButton = view.findViewById(R.id.sendButton)
+        phoneNoInput = view.findViewById(R.id.phoneLoginEditText)
         countryCode = view.findViewById(R.id.countryCode)
 
         nextButton.setOnClickListener {

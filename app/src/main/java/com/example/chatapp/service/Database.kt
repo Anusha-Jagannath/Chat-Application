@@ -45,5 +45,4 @@ class Database {
         }
         return user
     }
-
 }
