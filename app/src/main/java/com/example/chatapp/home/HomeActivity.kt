@@ -12,10 +12,12 @@ import com.example.chatapp.LoginFragment
 import com.example.chatapp.R
 import com.example.chatapp.adapters.ViewPagerAdaptor
 import com.example.chatapp.service.AuthenticationService
+import com.example.chatapp.ui.LoginActivity
 import com.example.chatapp.viewmodels.HomeViewModel
 import com.example.chatapp.viewmodels.HomeViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -26,6 +28,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        setSupportActionBar(toolbar)
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
         adaptor = ViewPagerAdaptor(supportFragmentManager, lifecycle)
@@ -61,16 +64,16 @@ class HomeActivity : AppCompatActivity() {
             AuthenticationService().logout()
             gotoLoginPage()
         }
+       if(item.itemId == R.id.group) {
+           var intent = Intent(this,GroupName::class.java)
+           startActivity(intent)
+       }
         return super.onOptionsItemSelected(item)
     }
 
     private fun gotoLoginPage() {
-
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragmentContainer, LoginFragment())
-        fragmentTransaction.commit()
-
+        var intent = Intent(this,LoginActivity::class.java)
+        startActivity(intent)
     }
 
     private fun gotoProfileActivity() {

@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 //        } else {
 //            replaceFragment(LoginFragment())
 //        }
-        replaceFragment(LoginFragment())
+       replaceFragment(LoginFragment())
     }
 
     private fun gotoHomeActivity() {

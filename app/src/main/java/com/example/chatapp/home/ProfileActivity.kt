@@ -36,7 +36,7 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         back = findViewById(R.id.back)
         profileImage = findViewById(R.id.profile)
-        nameInput = findViewById(R.id.editTextName)
+        nameInput = findViewById(R.id.groupName)
         statusInput = findViewById(R.id.editTextStatus)
         submit = findViewById(R.id.save)
         back.setOnClickListener {

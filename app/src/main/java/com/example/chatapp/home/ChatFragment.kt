@@ -30,7 +30,7 @@ class ChatFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         userArrayList = arrayListOf<UserDetails>()
-        adapter = UserAdaptor(userArrayList)
+        adapter = UserAdaptor(requireContext(),userArrayList)
         recyclerView.adapter = adapter
         getUserdata()
         return view

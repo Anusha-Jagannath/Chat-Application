@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context=".home.HomeActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        app:title="@string/app_name"
+        app:titleTextColor="#fff"
+        />
+
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
