@@ -62,16 +62,16 @@ class Database {
     }
 
 
-//    fun saveChat(message: String, senderUid: String, senderRoom: String) {
-//        val db = FirebaseFirestore.getInstance()
-//        val chat = Chat(message,senderUid)
-//        db.collection("chats").document(senderRoom).set(chat).addOnCompleteListener {
-//            if (it.isSuccessful) {
-//                Log.d("Database", "added chat information")
-//            } else {
-//                Log.d("Database", "not added chat information")
-//            }
-//        }
-//
-//    }
+    fun saveChat(message: String, senderUid: String, senderRoom: String) {
+        val db = FirebaseFirestore.getInstance()
+        val chat = Chat(message,senderUid)
+        db.collection("chats").document(senderRoom).set(chat).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.d("Database", "added chat information")
+            } else {
+                Log.d("Database", "not added chat information")
+            }
+        }
+
+    }
 }

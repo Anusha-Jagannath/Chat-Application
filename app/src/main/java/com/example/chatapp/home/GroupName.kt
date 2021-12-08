@@ -35,5 +35,4 @@ class GroupName : AppCompatActivity() {
                 }
             }
     }
-
 }

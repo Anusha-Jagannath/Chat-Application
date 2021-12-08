@@ -37,9 +37,7 @@ class ChatAdaptor(val context: Context, val messageList: ArrayList<Chat>) :
         } else {
             val viewHolder = holder as ReceiveViewHolder
             holder.receiveMessage.text = currentMessage.message
-
         }
-
     }
 
     override fun getItemViewType(position: Int): Int {

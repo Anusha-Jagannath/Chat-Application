@@ -30,7 +30,6 @@ class UserAdaptor(val context: Context, private val userList: ArrayList<UserDeta
             intent.putExtra("uid",user.userId)
             context.startActivity(intent)
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -41,6 +40,5 @@ class UserAdaptor(val context: Context, private val userList: ArrayList<UserDeta
         val name: TextView = itemView.findViewById(R.id.titleTv)
         val userStatus: TextView = itemView.findViewById(R.id.subTitleTv)
         var imageUrl: ShapeableImageView = itemView.findViewById(R.id.userImgView)
-
     }
 }
