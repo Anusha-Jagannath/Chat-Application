@@ -53,7 +53,6 @@ class ChatAdaptor(val context: Context, val messageList: ArrayList<Chat>) :
         return messageList.size
     }
 
-
     class SentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val sentMessage = itemView.findViewById<TextView>(R.id.txt_sent_message)
     }

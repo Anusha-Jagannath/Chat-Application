@@ -15,6 +15,8 @@ import com.example.chatapp.model.Chat
 import com.example.chatapp.service.AuthenticationService
 import com.example.chatapp.service.Database
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.activity_group.*
 
 class ChatActivity : AppCompatActivity() {
     private lateinit var chatRecyclerView: RecyclerView
@@ -32,6 +34,10 @@ class ChatActivity : AppCompatActivity() {
         messageBox = findViewById(R.id.messageBox)
         sendButton = findViewById(R.id.sentButton)
         val name = intent.getStringExtra("name")
+
+        setSupportActionBar(chatToolbar)
+        supportActionBar?.title = name
+
         val receiverUid = intent.getStringExtra("uid")
         val senderUid = AuthenticationService().getUid()
         databaseRef = FirebaseDatabase.getInstance().reference
@@ -74,6 +80,5 @@ class ChatActivity : AppCompatActivity() {
             messageBox.setText(" ")
 
         }
-
     }
 }

@@ -1,6 +1,7 @@
 package com.example.chatapp.home
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -38,6 +39,7 @@ class HomeActivity : AppCompatActivity() {
             when (position) {
                 0 -> {
                     tab.text = "Chats" //set name for the tabs
+
                 }
                 1 -> {
                     tab.text = "Group Chats"
@@ -45,7 +47,6 @@ class HomeActivity : AppCompatActivity() {
 
             }
         }.attach()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

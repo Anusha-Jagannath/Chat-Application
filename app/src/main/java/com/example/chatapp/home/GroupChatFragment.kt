@@ -31,7 +31,7 @@ class GroupChatFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         groupArrayList = arrayListOf()
-        groupAdaptor = GroupAdaptor(groupArrayList)
+        groupAdaptor = GroupAdaptor(requireContext(),groupArrayList)
         recyclerView.adapter = groupAdaptor
         eventChangeListener()
         return view

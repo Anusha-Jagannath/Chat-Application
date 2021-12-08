@@ -51,7 +51,6 @@ class ChatFragment : Fragment() {
                         if(AuthenticationService().getUid() != user.userId)
                         userArrayList.add(user)
                         Log.d("USER",userArrayList.toString())
-
                     }
                 }
                 adapter.notifyDataSetChanged()
