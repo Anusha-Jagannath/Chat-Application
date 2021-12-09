@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.example.chatapp.Constants
 import com.example.chatapp.R
 import com.example.chatapp.Validator
 import com.example.chatapp.model.UserDetails
@@ -52,14 +53,29 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "submit clicked", Toast.LENGTH_SHORT).show()
             var name = nameInput.text.toString()
             var status = statusInput.text.toString()
-            if(! ::downloadUrl.isInitialized) {
-                Toast.makeText(this,"Image cannot be empty",Toast.LENGTH_SHORT).show()
-            }
-            else if (name.isNotEmpty() || status.isNotEmpty()) {
+            if (!::downloadUrl.isInitialized) {
+                Toast.makeText(this, "Image cannot be empty", Toast.LENGTH_SHORT).show()
+            } else if (name.isNotEmpty() || status.isNotEmpty()) {
                 var database = Database()
-                database.saveUserData(name, status,downloadUrl)
+                val sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE)
+                val messageToken = sharedPreferences.getString("notification_token", "")
+                if (messageToken != null) {
+                    Log.d("Token", messageToken)
+                }
+
+                database.saveUserData(
+                    name,
+                    status,
+                    downloadUrl,
+                    "dFG-9uQdTg6kclTJd2pvZX:APA91bEeq7qAj7dVwyB5Ypig3mymbvMh4wDHEHJkXEuH_ky94S2fdgcsgCTau-KZrNRMnh0OanFWms_F0BVkXn7UbKiPwCkvh5iCR_sqA9tZi_3NdzC5LJt6ud6pp7ThrkpVLeNMCaor"
+                )
+
             } else {
-                Toast.makeText(this, "name and staus fields should not be empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "name and staus fields should not be empty",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         displayIcon()
@@ -72,7 +88,7 @@ class ProfileActivity : AppCompatActivity() {
         var database = Database()
         var fUid = AuthenticationService().getUid()
         var user = database.getUser(fUid)
-        Log.d("profile",user.toString())
+        Log.d("profile", user.toString())
         nameInput.setText(user.userName)
         statusInput.setText(user.status)
     }
@@ -84,7 +100,7 @@ class ProfileActivity : AppCompatActivity() {
             val storage = Storage()
             val uid = AuthenticationService().getUid()
             Log.d("UID", uid)
-            uploadImage(uid,imageUri)
+            uploadImage(uid, imageUri)
         }
     }
 
@@ -103,17 +119,24 @@ class ProfileActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun getUser(fUid: String){
+    fun getUser(fUid: String) {
         val db = FirebaseFirestore.getInstance()
-        var user = UserDetails("","",""," ")
+        var user = UserDetails("", "", "", " ","")
         db.collection("users").document(fUid).get().addOnCompleteListener { status ->
-            if(status.isSuccessful) {
+            if (status.isSuccessful) {
                 status.result?.also {
-                    Log.d("F",it.data.toString())
+                    Log.d("F", it.data.toString())
                     var userDb: UserDetails = Validator.createUserFromHashMap(
-                        it.data as HashMap<*, *>)
-                    user = UserDetails(userDb.userId,userDb.userName,userDb.status,userDb.downloadUrl)
-                    Log.d("DATA",user.toString())
+                        it.data as HashMap<*, *>
+                    )
+                    user = UserDetails(
+                        userDb.userId,
+                        userDb.userName,
+                        userDb.status,
+                        userDb.downloadUrl,
+                        userDb.firebaseMessagingToken
+                    )
+                    Log.d("DATA", user.toString())
                     nameInput.setText(user.userName)
                     statusInput.setText(user.status)
                 }
@@ -123,18 +146,18 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
-    fun uploadImage(uid: String,image: Uri) {
+    fun uploadImage(uid: String, image: Uri) {
 
-        val reference = FirebaseStorage.getInstance().reference.child("user/"+uid+"jpg")
+        val reference = FirebaseStorage.getInstance().reference.child("user/" + uid + "jpg")
         var uploadTask = reference.putFile(image)
-        uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> {task ->
-            if(!task.isSuccessful) {
-                Log.d("Error uploading file",task.exception.toString())
+        uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+            if (!task.isSuccessful) {
+                Log.d("Error uploading file", task.exception.toString())
             }
             return@Continuation reference.downloadUrl
         }).addOnCompleteListener { task ->
-            if(task.isSuccessful) {
-                Log.d("Uploaded",task.result.toString())
+            if (task.isSuccessful) {
+                Log.d("Uploaded", task.result.toString())
                 downloadUrl = task.result.toString()
                 Glide.with(this).load(downloadUrl).into(profileImage)
             }

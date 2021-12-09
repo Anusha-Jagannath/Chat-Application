@@ -9,9 +9,9 @@ import com.google.firebase.firestore.*
 
 class Database {
 
-    fun saveUserData(name: String, status: String, downloadUrl: String) {
+    fun saveUserData(name: String, status: String, downloadUrl: String,messageToken: String) {
         val userId = AuthenticationService().getUid()
-        var user = UserDetails(userId, name, status, downloadUrl)
+        var user = UserDetails(userId, name, status, downloadUrl,messageToken)
         val db = FirebaseFirestore.getInstance()
         db.collection("users").document(userId).set(user).addOnCompleteListener {
             if (it.isSuccessful) {
@@ -25,7 +25,7 @@ class Database {
 
     fun getUser(fUid: String): UserDetails {
         val db = FirebaseFirestore.getInstance()
-        var user = UserDetails("", "", "", "")
+        var user = UserDetails("", "", "", "","")
         db.collection("users").document(fUid).get().addOnCompleteListener { status ->
             if (status.isSuccessful) {
                 status.result?.also {
@@ -37,7 +37,8 @@ class Database {
                         userDb.userId,
                         userDb.userName,
                         userDb.status,
-                        userDb.downloadUrl
+                        userDb.downloadUrl,
+                        userDb.firebaseMessagingToken
                     )
                     Log.d("DATA", user.toString())
                 }
