@@ -19,7 +19,7 @@ class GroupAdaptor(val context: Context, private val groupList: ArrayList<Group>
         viewType: Int
     ): GroupAdaptor.GroupViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.group_user, parent, false)
         return GroupViewHolder(itemView)
     }
 

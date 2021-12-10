@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".home.GroupActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -41,15 +42,25 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="85"
             android:paddingLeft="10dp"
-            android:hint="Type a message"/>
+            android:textColor="@color/white"
+            android:hint="Type a message"
+            android:textColorHint="@color/white"
+            />
 
 
         <ImageView
             android:id="@+id/sentButton"
             android:src="@drawable/ic_baseline_send_24"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="20"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="10"
+            />
+
+        <ImageView
+            android:id="@+id/browseGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/image_white"
             />
     </LinearLayout>
 

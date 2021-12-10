@@ -10,25 +10,16 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-<!--    <com.google.android.material.imageview.ShapeableImageView-->
-<!--        android:id="@+id/userImgView"-->
-<!--        android:layout_width="50dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:adjustViewBounds="true"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:src="@drawable/person"/>-->
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_marginTop="10dp"
         android:id="@+id/userImgView"
-        android:layout_marginLeft="5dp"
-        android:padding="5dp"
-        android:src="@drawable/person"
-        app:civ_border_color="#ff000000"
-        app:civ_border_width="2dp"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_baseline_person_24"/>
 
 
     <LinearLayout
@@ -52,18 +43,18 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="Pulkit Aggarwal" />
+                tools:text="Pulkit Aggarwal"
+                android:layout_marginLeft="8dp"
+                />
 
-            <TextView
+            <CheckBox
                 android:id="@+id/timeTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:ellipsize="end"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
                 android:visibility="visible"
-                tools:text="6/1/20" />
+                />
         </LinearLayout>
 
         <LinearLayout

@@ -5,8 +5,10 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#101D25</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#4FCE5D</color>
     <color name="toolbarColor">#232D36</color>
+    <color name="chatBackground">#E5E5E5</color>
+
 </resources>

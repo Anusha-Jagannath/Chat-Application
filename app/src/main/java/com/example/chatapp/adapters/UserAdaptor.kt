@@ -13,6 +13,7 @@ import com.example.chatapp.model.UserDetails
 import com.example.chatapp.service.AuthenticationService
 import com.google.android.material.imageview.ShapeableImageView
 import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 
 class UserAdaptor(val context: Context, private val userList: ArrayList<UserDetails>): RecyclerView.Adapter<UserAdaptor.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdaptor.MyViewHolder {
@@ -24,6 +25,7 @@ class UserAdaptor(val context: Context, private val userList: ArrayList<UserDeta
        val user: UserDetails = userList[position]
         holder.name.text = user.userName
         holder.userStatus.text = user.status
+        Picasso.get().load(user.downloadUrl).placeholder(R.drawable.black_background).into(holder.imageUrl)
         holder.itemView.setOnClickListener {
             val intent = Intent(context,ChatActivity::class.java)
             intent.putExtra("name",user.userName)
@@ -39,6 +41,6 @@ class UserAdaptor(val context: Context, private val userList: ArrayList<UserDeta
     public class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.titleTv)
         val userStatus: TextView = itemView.findViewById(R.id.subTitleTv)
-        var imageUrl: ShapeableImageView = itemView.findViewById(R.id.userImgView)
+        var imageUrl: CircleImageView = itemView.findViewById(R.id.userImgView)
     }
 }

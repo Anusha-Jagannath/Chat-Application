@@ -16,4 +16,5 @@
     <string name="send">send</string>
     <string name="from_anusha">from Anusha</string>
     <string name="enter_phone_no">Enter phone no</string>
+    <string name="enter_group_name">Enter group name</string>
 </resources>

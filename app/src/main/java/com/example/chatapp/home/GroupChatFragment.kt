@@ -1,5 +1,6 @@
 package com.example.chatapp.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.example.chatapp.model.Group
 import com.example.chatapp.model.UserDetails
 import com.example.chatapp.service.AuthenticationService
 import com.google.firebase.firestore.*
+import kotlinx.android.synthetic.main.fragment_group_chat.*
 
 class GroupChatFragment : Fragment() {
 
