@@ -11,9 +11,8 @@ import com.bumptech.glide.Glide
 import com.example.chatapp.R
 import com.example.chatapp.model.Chat
 import com.example.chatapp.service.AuthenticationService
-import kotlinx.android.synthetic.main.sent.view.*
 
-class ChatAdaptor(val context: Context, val messageList: ArrayList<Chat>) :
+class MessageAdaptor(val context: Context, val messageList: ArrayList<Chat>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val ITEM_RECEIVE = 1
@@ -22,7 +21,7 @@ class ChatAdaptor(val context: Context, val messageList: ArrayList<Chat>) :
 
         if (viewType == 1) {
             //inflate receive
-            val view: View = LayoutInflater.from(context).inflate(R.layout.receive, parent, false)
+            val view: View = LayoutInflater.from(context).inflate(R.layout.group_receive, parent, false)
             return ReceiveViewHolder(view)
         } else {
             //inflate sent
@@ -37,14 +36,14 @@ class ChatAdaptor(val context: Context, val messageList: ArrayList<Chat>) :
         if (holder.javaClass == SentViewHolder::class.java) {
             val viewHolder = holder as SentViewHolder
             if(currentMessage.message.equals("photo")){
-               holder.photo.visibility = View.VISIBLE
+                holder.photo.visibility = View.VISIBLE
                 holder.sentMessage.visibility = View.GONE
                 holder.time.text = currentMessage.time
 
                 Glide.with(context).load(currentMessage.imageUrl).placeholder(R.drawable.ic_baseline_person_24_white)
                     .into(holder.photo)
             }
-                holder.sentMessage.text = currentMessage.message
+            holder.sentMessage.text = currentMessage.message
             holder.time.text = currentMessage.time
         } else {
             val viewHolder = holder as ReceiveViewHolder
@@ -52,10 +51,12 @@ class ChatAdaptor(val context: Context, val messageList: ArrayList<Chat>) :
                 holder.userPhoto.visibility = View.VISIBLE
                 holder.receiveMessage.visibility = View.GONE
                 holder.timeText.text = currentMessage.time
+                holder.name.text = currentMessage.senderName
                 Glide.with(context).load(currentMessage.imageUrl).placeholder(R.drawable.ic_baseline_person_24).into(holder.userPhoto)
             }
             holder.receiveMessage.text = currentMessage.message
             holder.timeText.text = currentMessage.time
+            holder.name.text = currentMessage.senderName
         }
     }
 
@@ -82,7 +83,6 @@ class ChatAdaptor(val context: Context, val messageList: ArrayList<Chat>) :
         val receiveMessage = itemView.findViewById<TextView>(R.id.txt_receive_message)
         val userPhoto = itemView.findViewById<ImageView>(R.id.userReceivePhoto)
         val timeText = itemView.findViewById<TextView>(R.id.timeReceiveText)
-
+        val name = itemView.findViewById<TextView>(R.id.senderName)
     }
-
 }

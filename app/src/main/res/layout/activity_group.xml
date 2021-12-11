@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".home.GroupActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolbarColor"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:titleTextColor="#fff" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/groupRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="601dp"
+        android:layout_above="@id/linearLayout"
+        android:layout_below="@+id/toolbar3"
+        android:layout_marginTop="80dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar3" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:weightSum="100">
+
+        <EditText
+            android:id="@+id/messageBox"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="85"
+            android:paddingLeft="10dp"
+            android:textColor="@color/white"
+            android:hint="Type a message"
+            android:textColorHint="@color/white"
+            />
+
+
+        <ImageView
+            android:id="@+id/sentButton"
+            android:src="@drawable/ic_baseline_send_24"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="10"
+            />
+
+        <ImageView
+            android:id="@+id/browseGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/image_white"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="103dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="214dp"
+        android:layout_marginBottom="10dp"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="18dp"
+        android:layout_toStartOf="@+id/header"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+
+
+</RelativeLayout>

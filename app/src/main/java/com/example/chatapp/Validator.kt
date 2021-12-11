@@ -23,7 +23,8 @@ object Validator {
             userMap["userId"].toString(),
             userMap["userName"].toString(),
             userMap["status"].toString(),
-            userMap["downloadUrl"].toString()
+            userMap["downloadUrl"].toString(),
+            userMap["firebaseMessagingToken"].toString()
         )
     }
 }

@@ -10,6 +10,7 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -42,18 +43,18 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="Pulkit Aggarwal" />
+                tools:text="Pulkit Aggarwal"
+                android:layout_marginLeft="8dp"
+                />
 
-            <TextView
+            <CheckBox
                 android:id="@+id/timeTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:ellipsize="end"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
                 android:visibility="visible"
-                tools:text="6/1/20" />
+                />
         </LinearLayout>
 
         <LinearLayout
