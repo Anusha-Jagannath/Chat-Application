@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
 import com.example.chatapp.model.UserDetails
 import com.google.firebase.firestore.auth.User
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 
 class UserSelectAdaptor(private val userList: ArrayList<UserDetails>): RecyclerView.Adapter<UserSelectAdaptor.MyViewHolder>() {
     override fun onCreateViewHolder(
@@ -23,6 +25,7 @@ class UserSelectAdaptor(private val userList: ArrayList<UserDetails>): RecyclerV
         val user: UserDetails = userList[position]
         holder.name.text = user.userName
         holder.status.text = user.status
+        Picasso.get().load(user.downloadUrl).placeholder(R.drawable.black_background).into(holder.imageUrl)
     }
 
     override fun getItemCount(): Int {
@@ -33,5 +36,6 @@ class UserSelectAdaptor(private val userList: ArrayList<UserDetails>): RecyclerV
         val name: TextView = itemView.findViewById(R.id.titleTv)
         val status: TextView = itemView.findViewById(R.id.subTitleTv)
         val check: CheckBox = itemView.findViewById(R.id.timeTv)
+        var imageUrl: CircleImageView = itemView.findViewById(R.id.userImgView)
     }
 }

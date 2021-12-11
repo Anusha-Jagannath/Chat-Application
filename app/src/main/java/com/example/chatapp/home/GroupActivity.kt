@@ -2,19 +2,25 @@ package com.example.chatapp.home
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
+import com.example.chatapp.Validator
 import com.example.chatapp.adapters.ChatAdaptor
+import com.example.chatapp.adapters.MessageAdaptor
 import com.example.chatapp.model.Chat
 import com.example.chatapp.model.UserDetails
 import com.example.chatapp.service.AuthenticationService
+import com.example.chatapp.service.Database
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
@@ -22,63 +28,78 @@ import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_group.*
+import java.time.LocalTime
 
 class GroupActivity : AppCompatActivity() {
     private lateinit var chatRecyclerView: RecyclerView
     private lateinit var messageBox: EditText
     private lateinit var sendButton: ImageView
+    private lateinit var backButton: ImageView
+    private lateinit var title: TextView
     private lateinit var userArrayList: ArrayList<UserDetails>
     private lateinit var db: FirebaseFirestore
-    private lateinit var messageAdaptor: ChatAdaptor
+    private lateinit var messageAdaptor: MessageAdaptor
     private lateinit var messageList: ArrayList<Chat>
     var receiverRoom: String? = null
     var senderRoom: String? = null
+    var receiverHash: String? = null
     private lateinit var databaseReference: DatabaseReference
     private lateinit var browse: ImageView
     lateinit var imageUri: Uri
     lateinit var downloadUrl: String
+    private lateinit var senderName: String
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
         chatRecyclerView = findViewById(R.id.groupRecyclerView)
         messageBox = findViewById(R.id.messageBox)
         sendButton = findViewById(R.id.sentButton)
+        backButton = findViewById(R.id.backBtn)
+        title = findViewById(R.id.header)
         browse = findViewById(R.id.browseGroup)
         userArrayList = arrayListOf<UserDetails>()
 
         databaseReference = FirebaseDatabase.getInstance().getReference()
         messageList = ArrayList()
-        messageAdaptor = ChatAdaptor(this, messageList)
+        messageAdaptor = MessageAdaptor(this, messageList)
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdaptor
 
         val groupName = intent.getStringExtra("groupName")
-        setSupportActionBar(toolbar3)
-        supportActionBar?.title = groupName
+        title.setText(groupName)
         getUserdata()
 
         val senderUid = AuthenticationService().getUid()
-        //senderRoom = userArrayList.get(0).userId + senderUid
-        //receiverRoom = senderUid + userArrayList.get(0).userId
+        getSender(senderUid)
 
         sendButton.setOnClickListener {
-            senderRoom = userArrayList.get(0).userId + senderUid
-            receiverRoom = senderUid + userArrayList.get(0).userId
+            senderRoom = userArrayList.get(1).userId + senderUid
+            receiverRoom = senderUid + userArrayList.get(1).userId
+            receiverHash = senderUid + userArrayList.get(0).userId
 
             val message = messageBox.text.toString()
+            val hour = LocalTime.now().hour
+            val min = LocalTime.now().minute
+            val time = "$hour:"+"$min"+" am"
+            Log.d("Current time",time)
             if(message.isNotEmpty()) {
-                val messageObject = Chat(message, senderUid)
+                val messageObject = Chat(message, senderUid,time=time,senderName = senderName)
                 databaseReference.child("GroupChats").child(senderRoom!!).child("GroupMessages")
                     .push().setValue(messageObject).addOnSuccessListener {
                         databaseReference.child("GroupChats").child(receiverRoom!!)
                             .child("GroupMessages")
-                            .push().setValue(messageObject)
+                            .push().setValue(messageObject).addOnSuccessListener {
+                                databaseReference.child("GroupChats").child(receiverHash!!)
+                                    .child("GroupMessages").push().setValue(messageObject)
+                            }
                     }
                 messageBox.setText(" ")
             }
             else if(::downloadUrl.isInitialized) {
-                val chat = Chat(message = "photo",senderId = senderUid,imageUrl = downloadUrl)
+                val chat = Chat(message = "photo",senderId = senderUid,imageUrl = downloadUrl,time=time)
                 databaseReference.child("GroupChats").child(senderRoom!!).child("GroupMessages")
                     .push().setValue(chat).addOnSuccessListener {
                         databaseReference.child("GroupChats").child(receiverRoom!!)
@@ -96,6 +117,10 @@ class GroupActivity : AppCompatActivity() {
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(intent, 100)
+        }
+        backButton.setOnClickListener {
+            var intent = Intent(this,HomeActivity::class.java)
+            startActivity(intent)
         }
 
     }
@@ -168,4 +193,33 @@ class GroupActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    fun getSender(fUid: String) {
+        val db = FirebaseFirestore.getInstance()
+        var user = UserDetails("", "", "", "","")
+        db.collection("users").document(fUid).get().addOnCompleteListener { status ->
+            if (status.isSuccessful) {
+                status.result?.also {
+                    Log.d("F", it.data.toString())
+                    var userDb: UserDetails = Validator.createUserFromHashMap(
+                        it.data as HashMap<*, *>
+                    )
+                    user = UserDetails(
+                        userDb.userId,
+                        userDb.userName,
+                        userDb.status,
+                        userDb.downloadUrl,
+                        userDb.firebaseMessagingToken
+                    )
+                    Log.d("SENDER DATA", user.toString())
+                    senderName = user.userName.toString()
+                    Log.d("SENDER NAME",senderName)
+
+                }
+            }
+
+        }
+    }
+
 }

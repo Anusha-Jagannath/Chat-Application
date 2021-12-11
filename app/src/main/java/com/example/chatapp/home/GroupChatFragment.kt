@@ -14,6 +14,7 @@ import com.example.chatapp.adapters.GroupAdaptor
 import com.example.chatapp.model.Group
 import com.example.chatapp.model.UserDetails
 import com.example.chatapp.service.AuthenticationService
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_group_chat.*
 
@@ -23,6 +24,7 @@ class GroupChatFragment : Fragment() {
     private lateinit var groupArrayList: ArrayList<Group>
     private lateinit var groupAdaptor: GroupAdaptor
     private lateinit var db: FirebaseFirestore
+    private lateinit var createGroup: FloatingActionButton
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,13 +32,22 @@ class GroupChatFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_group_chat, container, false)
         recyclerView = view.findViewById(R.id.groupRecyclerView)
+        createGroup = view.findViewById(R.id.createGroup)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         groupArrayList = arrayListOf()
         groupAdaptor = GroupAdaptor(requireContext(),groupArrayList)
         recyclerView.adapter = groupAdaptor
         eventChangeListener()
+        createGroup.setOnClickListener {
+            gotoGroupNameActivity()
+        }
         return view
+    }
+
+    private fun gotoGroupNameActivity() {
+        var intent = Intent(requireContext(),GroupName::class.java)
+        startActivity(intent)
     }
 
     private fun eventChangeListener() {

@@ -7,15 +7,15 @@
     android:background="@color/black"
     tools:context=".home.GroupActivity">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/toolbarColor"
         android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="#fff"
-        android:theme="?attr/actionBarTheme" />
-
+        android:theme="?attr/actionBarTheme"
+        app:titleTextColor="#fff" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groupRecyclerView"
@@ -63,6 +63,32 @@
             android:src="@drawable/image_white"
             />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="103dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="214dp"
+        android:layout_marginBottom="10dp"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar3"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="18dp"
+        android:layout_toStartOf="@+id/header"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
 
 </RelativeLayout>

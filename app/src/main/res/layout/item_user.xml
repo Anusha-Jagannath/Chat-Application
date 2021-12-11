@@ -10,16 +10,6 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-<!--    <com.google.android.material.imageview.ShapeableImageView-->
-<!--        android:id="@+id/userImgView"-->
-<!--        android:layout_width="50dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:adjustViewBounds="true"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:src="@drawable/person"/>-->
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="80dp"
         android:layout_height="80dp"

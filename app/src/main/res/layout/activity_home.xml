@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/toolbarColor"
         app:title="@string/app_name"
-        app:titleTextColor="#fff"
+        app:titleTextColor="@color/white"
         />
 
     <com.google.android.material.tabs.TabLayout
@@ -23,6 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tabLayout"
+        app:tabIconTint="@color/teal_200"
+        app:tabIndicatorColor="@color/teal_200"
+        app:tabSelectedTextColor="@color/white"
         />
     <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"

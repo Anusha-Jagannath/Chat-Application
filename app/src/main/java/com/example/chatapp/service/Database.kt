@@ -52,7 +52,7 @@ class Database {
         val userId = AuthenticationService().getUid()
         val group = Group(userId, name)
         val db = FirebaseFirestore.getInstance()
-        db.collection("group").document(userId).set(group).addOnCompleteListener {
+        db.collection("group").document(userId+name).set(group).addOnCompleteListener {
             if (it.isSuccessful) {
                 Log.d("Database", "added group information")
             } else {
