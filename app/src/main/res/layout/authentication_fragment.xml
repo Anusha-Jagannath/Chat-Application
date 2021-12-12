@@ -82,7 +82,7 @@
         android:layout_width="167dp"
         android:layout_height="33dp"
         android:layout_marginTop="20dp"
-        android:text="Enter sms code"
+        android:text="@string/enter_sms_code"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/white"

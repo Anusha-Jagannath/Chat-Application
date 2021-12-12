@@ -17,4 +17,9 @@
     <string name="from_anusha">from Anusha</string>
     <string name="enter_phone_no">Enter phone no</string>
     <string name="enter_group_name">Enter group name</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="textview">TextView</string>
+    <string name="new_group">New Group</string>
+    <string name="add_group_name">Add group name</string>
+    <string name="enter_sms_code">Enter sms code</string>
 </resources>

@@ -12,11 +12,13 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.chatapp.Constants
 import com.example.chatapp.R
 import com.example.chatapp.adapters.ChatAdaptor
 import com.example.chatapp.model.Chat
 import com.example.chatapp.service.AuthenticationService
 import com.example.chatapp.service.Database
+import com.example.chatapp.service.Notification
 import com.example.chatapp.service.Storage
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
@@ -25,6 +27,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_group.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalTime
 
 class ChatActivity : AppCompatActivity() {
@@ -109,6 +114,17 @@ class ChatActivity : AppCompatActivity() {
                             .setValue(chat)
                     }
             }
+            var notify = Notification()
+            val sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE)
+            val messageToken = sharedPreferences.getString("notification_token", "")
+            Log.d("DEVICE TOKEN TEST",messageToken.toString())
+            if (receiverUid != null) {
+                CoroutineScope(Dispatchers.Default).launch {
+                    notify.notification(senderUid,receiverUid,message,messageToken.toString())
+                }
+
+            }
+
         }
         back.setOnClickListener {
             gotoHomeActivity()

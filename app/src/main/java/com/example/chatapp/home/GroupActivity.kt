@@ -6,13 +6,11 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatapp.Constants
 import com.example.chatapp.R
 import com.example.chatapp.Validator
 import com.example.chatapp.adapters.ChatAdaptor
@@ -21,6 +19,7 @@ import com.example.chatapp.model.Chat
 import com.example.chatapp.model.UserDetails
 import com.example.chatapp.service.AuthenticationService
 import com.example.chatapp.service.Database
+import com.example.chatapp.service.Notification
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
@@ -28,6 +27,9 @@ import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_group.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalTime
 
 class GroupActivity : AppCompatActivity() {
@@ -43,11 +45,13 @@ class GroupActivity : AppCompatActivity() {
     var receiverRoom: String? = null
     var senderRoom: String? = null
     var receiverHash: String? = null
+    var receiverUid: String? =null
     private lateinit var databaseReference: DatabaseReference
     private lateinit var browse: ImageView
     lateinit var imageUri: Uri
     lateinit var downloadUrl: String
     private lateinit var senderName: String
+    private lateinit var progress: ProgressBar
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -60,6 +64,7 @@ class GroupActivity : AppCompatActivity() {
         backButton = findViewById(R.id.backBtn)
         title = findViewById(R.id.header)
         browse = findViewById(R.id.browseGroup)
+        progress = findViewById(R.id.progressBottom)
         userArrayList = arrayListOf<UserDetails>()
 
         databaseReference = FirebaseDatabase.getInstance().getReference()
@@ -79,6 +84,7 @@ class GroupActivity : AppCompatActivity() {
             senderRoom = userArrayList.get(1).userId + senderUid
             receiverRoom = senderUid + userArrayList.get(1).userId
             receiverHash = senderUid + userArrayList.get(0).userId
+            receiverUid = userArrayList.get(1).userId
 
             val message = messageBox.text.toString()
             val hour = LocalTime.now().hour
@@ -110,6 +116,17 @@ class GroupActivity : AppCompatActivity() {
 
 
             getAllMessages()
+            var notify = Notification()
+            val sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE)
+            val messageToken = sharedPreferences.getString("notification_token", "")
+            Log.d("DEVICE TOKEN TEST",messageToken.toString())
+            if (receiverUid != null) {
+                CoroutineScope(Dispatchers.Default).launch {
+                    notify.notification(senderUid, receiverUid!!,message,messageToken.toString())
+                }
+
+            }
+
         }
         browse.setOnClickListener {
             Toast.makeText(this,"browse clicked", Toast.LENGTH_SHORT).show()

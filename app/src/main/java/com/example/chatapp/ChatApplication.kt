@@ -28,6 +28,7 @@ class ChatApplication: Application() {
             val editor = sharedPreferences.edit()
             editor.putString("notification_token",msg)
             editor.apply()
+            Log.d("DEVICE",msg)
             Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
         })
     }
