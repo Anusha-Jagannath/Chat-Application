@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,6 +53,8 @@ class GroupActivity : AppCompatActivity() {
     lateinit var downloadUrl: String
     private lateinit var senderName: String
     private lateinit var progress: ProgressBar
+    var isLoading = false
+    var key: String = ""
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -116,6 +119,21 @@ class GroupActivity : AppCompatActivity() {
 
 
             getAllMessages()
+            chatRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    Log.i("working","increment page test")
+                    val visibleItemCount = (chatRecyclerView.layoutManager as LinearLayoutManager).childCount
+                    val pastVisibleItem = (chatRecyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val total = messageAdaptor.itemCount
+                    if(total<pastVisibleItem+3) {
+                        if(!isLoading) {
+                            isLoading = true
+                        }
+                    }
+                    loadChats()
+                }
+            })
+
             var notify = Notification()
             val sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE)
             val messageToken = sharedPreferences.getString("notification_token", "")
@@ -140,6 +158,11 @@ class GroupActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+    private fun loadChats() {
+        Log.d("set progress visibility", "visible")
+        progress.visibility = View.VISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

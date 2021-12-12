@@ -22,4 +22,6 @@
     <string name="new_group">New Group</string>
     <string name="add_group_name">Add group name</string>
     <string name="enter_sms_code">Enter sms code</string>
+    <string name="save_btn">SAVE</string>
+    <string name="group_creation">group created successfully</string>
 </resources>

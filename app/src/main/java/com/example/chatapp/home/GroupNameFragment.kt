@@ -41,5 +41,4 @@ class GroupNameFragment : Fragment() {
                 }
             }
     }
-
 }

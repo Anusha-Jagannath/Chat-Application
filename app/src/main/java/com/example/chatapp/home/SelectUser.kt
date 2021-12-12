@@ -38,7 +38,7 @@ class SelectUser : AppCompatActivity() {
             gotoGroupNameActivity()
         }
         saveBtn.setOnClickListener {
-            Toast.makeText(this,"group created successfully",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,getString(R.string.group_creation),Toast.LENGTH_SHORT).show()
             gotoHomeActivity()
         }
     }

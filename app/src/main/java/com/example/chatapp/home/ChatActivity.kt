@@ -47,6 +47,8 @@ class ChatActivity : AppCompatActivity() {
     lateinit var imageUri: Uri
     var receiverRoom: String? = null
     var senderRoom: String? = null
+    private lateinit var progress: ProgressBar
+    var isLoading = false
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +60,7 @@ class ChatActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         title = findViewById(R.id.titleView)
         back = findViewById(R.id.backImage)
+        progress = findViewById(R.id.progressPage)
         val name = intent.getStringExtra("name")
         title.setText(name)
         val receiverUid = intent.getStringExtra("uid")
@@ -126,6 +129,22 @@ class ChatActivity : AppCompatActivity() {
             }
 
         }
+
+        chatRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                Log.i("working","increment page test")
+                val visibleItemCount = (chatRecyclerView.layoutManager as LinearLayoutManager).childCount
+                val pastVisibleItem = (chatRecyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                val total = messageAdaptor.itemCount
+                if(total<pastVisibleItem+visibleItemCount) {
+                    if(!isLoading) {
+                        isLoading = true
+                    }
+                }
+                loadChats()
+            }
+        })
+
         back.setOnClickListener {
             gotoHomeActivity()
         }
@@ -136,6 +155,11 @@ class ChatActivity : AppCompatActivity() {
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(intent, 100)
         }
+    }
+
+    private fun loadChats() {
+        Log.d("set progress visibility", "visible")
+        progress.visibility = View.VISIBLE
     }
 
     private fun gotoHomeActivity() {
@@ -173,5 +197,4 @@ class ChatActivity : AppCompatActivity() {
             }
         }
     }
-
 }

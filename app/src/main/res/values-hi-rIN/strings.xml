@@ -12,4 +12,18 @@
     <string name="enter_the_status">स्थिति दर्ज करें</string>
     <string name="save">सहेजें</string>
 
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="read_our_privacy_policy_tap_agree_and_continue_to_accept_terms_and_services">हमारी गोपनीयता नीति पढ़ें। सहमत टैप करें और नियम और सेवाओं को स्वीकार करना जारी रखें</string>
+    <string name="send">भेजना</string>
+    <string name="from_anusha">अनुषा से</string>
+    <string name="enter_phone_no">फ़ोन नंबर दर्ज करें</string>
+    <string name="enter_group_name">समूह का नाम दर्ज करें</string>
+    <string name="type_a_message">एक संदेश लिखें</string>
+    <string name="textview">व्याख्यान दर्शन</string>
+    <string name="new_group">नया समूह</string>
+    <string name="add_group_name">समूह का नाम जोड़ें</string>
+    <string name="enter_sms_code">एसएमएस कोड दर्ज करें</string>
+    <string name="save_btn">सहेजें</string>
+    <string name="group_creation">समूह सफलतापूर्वक बनाया गया</string>
+
 </resources>

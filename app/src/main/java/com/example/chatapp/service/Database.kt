@@ -1,10 +1,14 @@
 package com.example.chatapp.service
 
 import android.util.Log
+import android.view.View
 import com.example.chatapp.Validator
 import com.example.chatapp.model.Chat
 import com.example.chatapp.model.Group
 import com.example.chatapp.model.UserDetails
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.google.firebase.database.Query
 import com.google.firebase.firestore.*
 
 class Database {
@@ -130,5 +134,18 @@ class Database {
         return chatArrayList
     }
 
+    fun get(key: String,senderRoom: String): Query {
+        lateinit var dbref: DatabaseReference
+
+        dbref = FirebaseDatabase.getInstance().getReference("GroupChats").child(senderRoom!!).child("GroupMessages")
+
+        if (key == " ") {
+            return dbref.limitToFirst(4)
+        } else {
+            //dbref.equalTo("randomlabel","labelId")
+            return dbref.startAfter(key).limitToFirst(4)
+        }
+
+    }
 
 }
