@@ -49,6 +49,8 @@ class ChatActivity : AppCompatActivity() {
     var senderRoom: String? = null
     private lateinit var progress: ProgressBar
     var isLoading = false
+    var key: String = ""
+    var isScrolling = false
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +75,7 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdaptor
 
-        //logic for adding data to recycler view
+        //logic for adding data to recycler view impt
         databaseRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -91,11 +93,13 @@ class ChatActivity : AppCompatActivity() {
 
             })
 
+
+
         sendButton.setOnClickListener {
             Toast.makeText(this, "send button clicked", Toast.LENGTH_SHORT).show()
             val hour = LocalTime.now().hour
             val min = LocalTime.now().minute
-            val time = "$hour:"+"$min"+" am"
+            val time = "$hour:"+"$min"+" pm"
             Log.d("Current time",time)
             val message = messageBox.text.toString()
             if(message.isNotEmpty()) {
@@ -131,17 +135,29 @@ class ChatActivity : AppCompatActivity() {
         }
 
         chatRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                Log.d("SCROLL","check")
+                isScrolling = true
+            }
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 Log.i("working","increment page test")
                 val visibleItemCount = (chatRecyclerView.layoutManager as LinearLayoutManager).childCount
                 val pastVisibleItem = (chatRecyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                 val total = messageAdaptor.itemCount
-                if(total<pastVisibleItem+visibleItemCount) {
-                    if(!isLoading) {
-                        isLoading = true
+                Log.d("visibleItemCount",visibleItemCount.toString())
+                Log.d("pastVisibleItemCount",pastVisibleItem.toString())
+                Log.d("Total",total.toString())
+
+                if(total < pastVisibleItem+visibleItemCount && isScrolling) {
+                    progress.visibility = View.VISIBLE
+                    Log.d("Paginate",pastVisibleItem.toString())
+                    if(total == pastVisibleItem+1) {
+                        Log.d("PAST",pastVisibleItem.toString())
+                        //isScrolling = false
+                        progress.visibility = View.GONE
                     }
                 }
-                loadChats()
             }
         })
 
@@ -173,9 +189,7 @@ class ChatActivity : AppCompatActivity() {
             imageUri = data?.data!!
             Log.d("IMAGE",imageUri.toString())
             progressBar.visibility = View.VISIBLE
-            //val storage = Storage()
             val uid = AuthenticationService().getUid()
-            //Log.d("UID", uid)
             uploadImage(uid, imageUri)
         }
     }

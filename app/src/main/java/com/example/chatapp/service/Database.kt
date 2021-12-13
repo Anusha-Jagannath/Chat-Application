@@ -136,14 +136,24 @@ class Database {
 
     fun get(key: String,senderRoom: String): Query {
         lateinit var dbref: DatabaseReference
-
         dbref = FirebaseDatabase.getInstance().getReference("GroupChats").child(senderRoom!!).child("GroupMessages")
-
         if (key == " ") {
-            return dbref.limitToFirst(4)
+            return dbref.orderByKey().limitToFirst(8)
         } else {
             //dbref.equalTo("randomlabel","labelId")
-            return dbref.startAfter(key).limitToFirst(4)
+            return dbref.orderByKey().startAfter(key).limitToFirst(8)
+        }
+
+    }
+
+    fun getChats(key: String,senderRoom: String): Query {
+        lateinit var dbref: DatabaseReference
+        dbref = FirebaseDatabase.getInstance().getReference("chats").child(senderRoom!!).child("messages")
+        if (key == " ") {
+            return dbref.orderByKey().limitToFirst(8)
+        } else {
+            //dbref.equalTo("randomlabel","labelId")
+            return dbref.orderByKey().startAfter(key).limitToFirst(8)
         }
 
     }

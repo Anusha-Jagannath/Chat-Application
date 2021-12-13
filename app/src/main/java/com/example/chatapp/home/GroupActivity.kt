@@ -92,7 +92,7 @@ class GroupActivity : AppCompatActivity() {
             val message = messageBox.text.toString()
             val hour = LocalTime.now().hour
             val min = LocalTime.now().minute
-            val time = "$hour:"+"$min"+" am"
+            val time = "$hour:"+"$min"+" pm"
             Log.d("Current time",time)
             if(message.isNotEmpty()) {
                 val messageObject = Chat(message, senderUid,time=time,senderName = senderName)
@@ -160,6 +160,29 @@ class GroupActivity : AppCompatActivity() {
 
     }
 
+    private fun loadData() {
+        progress.visibility = View.VISIBLE
+       var database = Database()
+        database.get(key,senderRoom!!).addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                messageList.clear()
+                for(postSnapshot in snapshot.children) {
+                    val message = postSnapshot.getValue(Chat::class.java)
+                    messageList.add(message!!)
+                    key = postSnapshot.key.toString()
+                }
+                messageAdaptor.notifyDataSetChanged()
+                isLoading = false
+                progress.visibility = View.GONE
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+    }
+
     private fun loadChats() {
         Log.d("set progress visibility", "visible")
         progress.visibility = View.VISIBLE
@@ -192,6 +215,7 @@ class GroupActivity : AppCompatActivity() {
                 }
 
             })
+        progress.visibility = View.GONE
     }
 
     private fun getUserdata() {
