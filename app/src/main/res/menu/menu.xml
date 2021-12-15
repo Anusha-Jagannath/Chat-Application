@@ -4,11 +4,14 @@
 
     <item
         android:id="@+id/settings"
-        android:title="Settings" />
-    <item
-        android:id="@+id/logout"
-        android:title="logout" />
+        android:title="@string/settings" />
+
     <item
         android:id="@+id/group"
-        android:title="group" />
+        android:title="@string/group" />
+
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout" />
+
 </menu>

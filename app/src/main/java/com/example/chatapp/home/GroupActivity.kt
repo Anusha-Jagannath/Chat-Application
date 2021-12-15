@@ -69,14 +69,12 @@ class GroupActivity : AppCompatActivity() {
         browse = findViewById(R.id.browseGroup)
         progress = findViewById(R.id.progressBottom)
         userArrayList = arrayListOf<UserDetails>()
-
         databaseReference = FirebaseDatabase.getInstance().getReference()
         messageList = ArrayList()
         messageAdaptor = MessageAdaptor(this, messageList)
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdaptor
-
-        val groupName = intent.getStringExtra("groupName")
+        val groupName = intent.getStringExtra(Constants.GROUPS_NAME)
         title.setText(groupName)
         getUserdata()
 
@@ -96,23 +94,23 @@ class GroupActivity : AppCompatActivity() {
             Log.d("Current time",time)
             if(message.isNotEmpty()) {
                 val messageObject = Chat(message, senderUid,time=time,senderName = senderName)
-                databaseReference.child("GroupChats").child(senderRoom!!).child("GroupMessages")
+                databaseReference.child(Constants.GROUP_CHATS).child(senderRoom!!).child(Constants.GROUP_MESSAGES)
                     .push().setValue(messageObject).addOnSuccessListener {
-                        databaseReference.child("GroupChats").child(receiverRoom!!)
-                            .child("GroupMessages")
+                        databaseReference.child(Constants.GROUP_CHATS).child(receiverRoom!!)
+                            .child(Constants.GROUP_MESSAGES)
                             .push().setValue(messageObject).addOnSuccessListener {
-                                databaseReference.child("GroupChats").child(receiverHash!!)
-                                    .child("GroupMessages").push().setValue(messageObject)
+                                databaseReference.child(Constants.GROUP_CHATS).child(receiverHash!!)
+                                    .child(Constants.GROUP_MESSAGES).push().setValue(messageObject)
                             }
                     }
                 messageBox.setText(" ")
             }
             else if(::downloadUrl.isInitialized) {
                 val chat = Chat(message = "photo",senderId = senderUid,imageUrl = downloadUrl,time=time)
-                databaseReference.child("GroupChats").child(senderRoom!!).child("GroupMessages")
+                databaseReference.child(Constants.GROUP_CHATS).child(senderRoom!!).child(Constants.GROUP_MESSAGES)
                     .push().setValue(chat).addOnSuccessListener {
-                        databaseReference.child("GroupChats").child(receiverRoom!!)
-                            .child("GroupMessages")
+                        databaseReference.child(Constants.GROUP_CHATS).child(receiverRoom!!)
+                            .child(Constants.GROUP_MESSAGES)
                             .push().setValue(chat)
                     }
             }
@@ -147,7 +145,6 @@ class GroupActivity : AppCompatActivity() {
 
         }
         browse.setOnClickListener {
-            Toast.makeText(this,"browse clicked", Toast.LENGTH_SHORT).show()
             var intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT

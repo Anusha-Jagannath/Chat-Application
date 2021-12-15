@@ -4,14 +4,18 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.chatapp.Constants
 import com.example.chatapp.LoginFragment
+import com.example.chatapp.MainActivity
 import com.example.chatapp.R
 import com.example.chatapp.adapters.ViewPagerAdaptor
+import com.example.chatapp.language.LanguageActivity
 import com.example.chatapp.service.AuthenticationService
 import com.example.chatapp.ui.LoginActivity
 import com.example.chatapp.viewmodels.HomeViewModel
@@ -38,15 +42,21 @@ class HomeActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "Chats" //set name for the tabs
+                    tab.text = getString(R.string.chat_tab) //set name for the tabs
 
                 }
                 1 -> {
-                    tab.text = "Group Chats"
+                    tab.text = getString(R.string.group_chat)
                 }
 
             }
         }.attach()
+
+        val sharedPreferences = getSharedPreferences(Constants.LANG_PREFS, MODE_PRIVATE)
+        val language = sharedPreferences.getString(Constants.LANGUAGE, "")
+        if (language != null) {
+            Log.d("HOME LANGUAGE",language)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -66,14 +76,14 @@ class HomeActivity : AppCompatActivity() {
             gotoLoginPage()
         }
        if(item.itemId == R.id.group) {
-           var intent = Intent(this,GroupName::class.java)
+           var intent = Intent(this,LanguageActivity::class.java)
            startActivity(intent)
        }
         return super.onOptionsItemSelected(item)
     }
 
     private fun gotoLoginPage() {
-        var intent = Intent(this,LoginActivity::class.java)
+        var intent = Intent(this,MainActivity::class.java)
         startActivity(intent)
     }
 

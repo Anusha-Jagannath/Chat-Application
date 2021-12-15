@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.chatapp.Constants
 import com.example.chatapp.R
@@ -13,8 +14,8 @@ import com.example.chatapp.R
 class UserProfile : AppCompatActivity() {
     private lateinit var back: ImageView
     private lateinit var profile: ImageView
-    private lateinit var nameInput: EditText
-    private lateinit var statusInput: EditText
+    private lateinit var nameInput: TextView
+    private lateinit var statusInput: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)

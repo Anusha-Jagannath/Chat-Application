@@ -26,4 +26,16 @@
     <string name="save_btn">सहेजें</string>
     <string name="group_creation">समूह सफलतापूर्वक बनाया गया</string>
 
+    <string name="settings">प्रोफ़ाइल</string>
+    <string name="logout">लॉग आउट</string>
+    <string name="group">भाषा</string>
+
+    <string name="select_a_language">भाषा चुनें</string>
+    <string name="english">अंग्रेज़ी</string>
+    <string name="radiobutton">हिन्दी</string>
+    <string name="image_cannot_empty">छवि खाली नहीं हो सकती</string>
+    <string name="fields_empty">नाम और स्टॉस फ़ील्ड खाली नहीं होने चाहिए</string>
+    <string name="chat_tab">चैट</string>
+    <string name="group_chat">समूह चैट</string>
+
 </resources>

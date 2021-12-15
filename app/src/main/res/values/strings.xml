@@ -24,4 +24,14 @@
     <string name="enter_sms_code">Enter sms code</string>
     <string name="save_btn">SAVE</string>
     <string name="group_creation">group created successfully</string>
+    <string name="settings">Profile</string>
+    <string name="logout">logout</string>
+    <string name="group">Language</string>
+    <string name="select_a_language">Select a language</string>
+    <string name="english">English</string>
+    <string name="radiobutton">Hindi</string>
+    <string name="image_cannot_empty">Image cannot be empty</string>
+    <string name="fields_empty">name and staus fields should not be empty</string>
+    <string name="chat_tab">Chats</string>
+    <string name="group_chat">Group Chats</string>
 </resources>

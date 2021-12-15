@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatApp">
         <activity
+            android:name=".language.LanguageActivity"
+            android:exported="true" />
+        <activity
             android:name=".home.UserProfile"
             android:exported="true" />
         <activity

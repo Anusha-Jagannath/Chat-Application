@@ -5,10 +5,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.chatapp.Constants
 import com.example.chatapp.R
@@ -30,6 +28,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var nameInput: EditText
     private lateinit var statusInput: EditText
     private lateinit var submit: Button
+    private lateinit var progress: ProgressBar
     lateinit var downloadUrl: String
     lateinit var imageUri: Uri
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +38,7 @@ class ProfileActivity : AppCompatActivity() {
         profileImage = findViewById(R.id.profile)
         nameInput = findViewById(R.id.groupName)
         statusInput = findViewById(R.id.editTextStatus)
+        progress = findViewById(R.id.imageLoader)
         submit = findViewById(R.id.save)
         back.setOnClickListener {
             gotoHomeActivity()
@@ -50,11 +50,10 @@ class ProfileActivity : AppCompatActivity() {
             startActivityForResult(intent, 100)
         }
         submit.setOnClickListener {
-            Toast.makeText(this, "submit clicked", Toast.LENGTH_SHORT).show()
             var name = nameInput.text.toString()
             var status = statusInput.text.toString()
             if (!::downloadUrl.isInitialized) {
-                Toast.makeText(this, "Image cannot be empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.image_cannot_empty), Toast.LENGTH_SHORT).show()
             } else if (name.isNotEmpty() || status.isNotEmpty()) {
                 var database = Database()
                 val sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE)
@@ -73,7 +72,7 @@ class ProfileActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "name and staus fields should not be empty",
+                    getString(R.string.fields_empty),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -81,7 +80,7 @@ class ProfileActivity : AppCompatActivity() {
         displayIcon()
         var fUid = AuthenticationService().getUid()
         getUser(fUid)
-        //displayProfile()
+        displayProfile()
     }
 
     private fun displayProfile() {
@@ -97,6 +96,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == RESULT_OK) {
             imageUri = data?.data!!
+            profileImage.setImageURI(imageUri)
             val storage = Storage()
             val uid = AuthenticationService().getUid()
             Log.d("UID", uid)
@@ -147,6 +147,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     fun uploadImage(uid: String, image: Uri) {
+        progress.visibility = View.VISIBLE
+        Toast.makeText(this,"Please wait while image is uploading",Toast.LENGTH_SHORT).show()
 
         val reference = FirebaseStorage.getInstance().reference.child("user/" + uid + "jpg")
         var uploadTask = reference.putFile(image)
@@ -162,5 +164,7 @@ class ProfileActivity : AppCompatActivity() {
                 Glide.with(this).load(downloadUrl).into(profileImage)
             }
         }
+        progress.visibility = View.GONE
     }
+
 }

@@ -63,9 +63,9 @@ class ChatActivity : AppCompatActivity() {
         title = findViewById(R.id.titleView)
         back = findViewById(R.id.backImage)
         progress = findViewById(R.id.progressPage)
-        val name = intent.getStringExtra("name")
+        val name = intent.getStringExtra(Constants.USER_NAME)
         title.setText(name)
-        val receiverUid = intent.getStringExtra("uid")
+        val receiverUid = intent.getStringExtra(Constants.UID)
         val senderUid = AuthenticationService().getUid()
         databaseRef = FirebaseDatabase.getInstance().reference
         senderRoom = receiverUid + senderUid
@@ -76,7 +76,7 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.adapter = messageAdaptor
 
         //logic for adding data to recycler view impt
-        databaseRef.child("chats").child(senderRoom!!).child("messages")
+        databaseRef.child(Constants.CHATS).child(senderRoom!!).child(Constants.MESSAGES)
             .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     messageList.clear()
@@ -92,11 +92,7 @@ class ChatActivity : AppCompatActivity() {
                 }
 
             })
-
-
-
         sendButton.setOnClickListener {
-            Toast.makeText(this, "send button clicked", Toast.LENGTH_SHORT).show()
             val hour = LocalTime.now().hour
             val min = LocalTime.now().minute
             val time = "$hour:"+"$min"+" pm"
@@ -104,20 +100,20 @@ class ChatActivity : AppCompatActivity() {
             val message = messageBox.text.toString()
             if(message.isNotEmpty()) {
                 val chat = Chat(message, senderUid,time=time)
-                databaseRef.child("chats").child(senderRoom!!).child("messages").push()
+                databaseRef.child(Constants.CHATS).child(senderRoom!!).child(Constants.MESSAGES).push()
                     .setValue(chat).addOnSuccessListener {
                         Log.d("data", "added")
-                        databaseRef.child("chats").child(receiverRoom!!).child("messages").push()
+                        databaseRef.child(Constants.CHATS).child(receiverRoom!!).child(Constants.MESSAGES).push()
                             .setValue(chat)
                     }
                 messageBox.setText("")
             }
             else if (::downloadUrl.isInitialized) {
                 val chat = Chat(message = "photo",senderId = senderUid,imageUrl = downloadUrl,time=time)
-                databaseRef.child("chats").child(senderRoom!!).child("messages").push()
+                databaseRef.child(Constants.CHATS).child(senderRoom!!).child(Constants.MESSAGES).push()
                     .setValue(chat).addOnSuccessListener {
                         Log.d("image data", "added")
-                        databaseRef.child("chats").child(receiverRoom!!).child("messages").push()
+                        databaseRef.child(Constants.CHATS).child(receiverRoom!!).child(Constants.MESSAGES).push()
                             .setValue(chat)
                     }
             }
@@ -165,7 +161,6 @@ class ChatActivity : AppCompatActivity() {
             gotoHomeActivity()
         }
         browse.setOnClickListener {
-            Toast.makeText(this,"browse clicked",Toast.LENGTH_SHORT).show()
             var intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT

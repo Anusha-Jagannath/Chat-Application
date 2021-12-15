@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatapp.Constants
 import com.example.chatapp.R
 import com.example.chatapp.home.ChatActivity
 import com.example.chatapp.home.GroupActivity
@@ -28,7 +29,7 @@ class GroupAdaptor(val context: Context, private val groupList: ArrayList<Group>
         holder.name.text = group.groupName
         holder.itemView.setOnClickListener {
             val intent = Intent(context, GroupActivity::class.java)
-            intent.putExtra("groupName", group.groupName)
+            intent.putExtra(Constants.GROUPS_NAME, group.groupName)
             context.startActivity(intent)
         }
     }

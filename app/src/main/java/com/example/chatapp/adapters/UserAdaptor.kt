@@ -31,8 +31,8 @@ class UserAdaptor(val context: Context, private val userList: ArrayList<UserDeta
         Picasso.get().load(user.downloadUrl).placeholder(R.drawable.black_background).into(holder.imageUrl)
         holder.itemView.setOnClickListener {
             val intent = Intent(context,ChatActivity::class.java)
-            intent.putExtra("name",user.userName)
-            intent.putExtra("uid",user.userId)
+            intent.putExtra(Constants.USER_NAME,user.userName)
+            intent.putExtra(Constants.UID,user.userId)
             context.startActivity(intent)
         }
         holder.imageUrl.setOnClickListener {
